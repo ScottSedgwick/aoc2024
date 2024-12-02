@@ -15,6 +15,8 @@ tested-with:         GHC == 8.8.3
 
 common common-options
   build-depends:       base
+                     , parsers
+                     , text
                      , trifecta
   
   ghc-options:         -Wall
@@ -39,6 +41,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Day01
                      , Day02
+  other-modules:       Parser
 
 executable aoc2024
   import:              common-options

@@ -14,23 +14,41 @@ module Day02
        , solve2
        ) where
 
-import Data.List (sort)
-import Text.Trifecta
+import Parser
 
-type Input = [(Integer, Integer)]
+import Text.Parser.Char
+import Text.Parser.Combinators
+import Text.Trifecta (Parser)
+
+type Input = [[Integer]]
 
 filename :: String
 filename = "data/day02.txt"
 
 parser :: Parser Input
-parser = many $ do
-       x <- integer
-       _ <- many space
-       y <- integer
-       pure (x, y)
+parser =  manyTill parserLine eof
 
-solve1 :: Input -> Integer
-solve1 = undefined
+parserLine :: Parser [Integer]
+parserLine = manyTill (number <* clearSpaces) newline 
 
-solve2 :: Input -> Integer
-solve2 = undefined
+solve1 :: Input -> Int
+solve1 = length . filter isSafe
+
+isSafe :: [Integer] -> Bool
+isSafe xs = allChanging (-3) (-1) ys || allChanging 1 3 ys
+    where
+        ys = map (\(a,b) -> a - b) (zip xs (drop 1 xs))
+
+allChanging :: Integer -> Integer -> [Integer] -> Bool
+allChanging minVal maxVal = all (\y -> y <= maxVal && y >= minVal)
+
+solve2 :: Input -> Int
+solve2 = length . filter isDampSafe
+
+isDampSafe :: [Integer] -> Bool
+isDampSafe = any isSafe . damps
+
+damps :: [Integer] -> [[Integer]]
+damps xs = map f [0..length xs]
+    where
+        f x = take x xs ++ drop (x + 1) xs
