@@ -41,22 +41,13 @@ library
   hs-source-dirs:      src
   exposed-modules:     Day01
                      , Day02
+                     , Day03
   other-modules:       Parser
 
 executable aoc2024
   import:              common-options
   hs-source-dirs:      app
   main-is:             Main.hs
-  build-depends:       aoc2024
-  ghc-options:         -threaded
-                       -rtsopts
-                       -with-rtsopts=-N
-
-test-suite aoc2024-test
-  import:              common-options
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      test
-  main-is:             Spec.hs
   build-depends:       aoc2024
   ghc-options:         -threaded
                        -rtsopts
