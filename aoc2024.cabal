@@ -10,7 +10,6 @@ maintainer:          Scott Sedgwick <scott.sedgwick@gmail.com>
 copyright:           2024 Scott Sedgwick
 build-type:          Simple
 extra-doc-files:     README.md
-                     CHANGELOG.md
 tested-with:         GHC == 8.8.3
 
 common common-options
