@@ -15,9 +15,10 @@ tested-with:         GHC == 8.8.3
 common common-options
   build-depends:       base
                      , parsers
+                     , split
                      , text
                      , trifecta
-  
+  default-extensions:  DerivingStrategies
   ghc-options:         -Wall
                        -Wcompat
                        -Widentities
