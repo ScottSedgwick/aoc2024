@@ -32,16 +32,15 @@ solve1 :: Input -> Int
 solve1 m = sum $ mapOnKeys (findXmas m) m
 
 findXmas :: Input -> (Int, Int) -> Int
-findXmas m ix = sum $ map (findXmas' m ix) [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-
-findXmas' :: Input -> (Int, Int) -> (Int, Int) -> Int
-findXmas' m (x, y) (dx, dy) =
-    if valAtEq m (x,y) 'X' 
-        && valAtEq m (x + dx, y + dy) 'M' 
-        && valAtEq m (x + dx * 2, y + dy * 2) 'A' 
-        && valAtEq m (x + dx * 3, y + dy * 3) 'S'
-        then 1
-        else 0
+findXmas m (x,y) = sum $ map f [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+  where
+    f (dx, dy) =
+      if valAtEq m (x,y) 'X'
+          && valAtEq m (x + dx, y + dy) 'M'
+          && valAtEq m (x + dx * 2, y + dy * 2) 'A'
+          && valAtEq m (x + dx * 3, y + dy * 3) 'S'
+          then 1
+          else 0
 
 solve2 :: Input -> Int
 solve2 m = sum $ mapOnKeys (findMas m) m

@@ -23,6 +23,8 @@ clearSpaces = skipMany (char ' ')
 wholeString :: Parser String
 wholeString = many anyChar
 
+-- Parses a text file. Splits on newlines.
+-- Returns a 2d array, where the top left character is at (0, 0)
 parse2dArray :: Parser (M.Map (Int, Int) Char)
 parse2dArray = do
     xs <- wholeString
