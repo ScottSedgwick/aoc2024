@@ -15,11 +15,10 @@ module Day03
        ) where
 
 import Parser (wholeString)
+import Utils (headOr, readInt)
 
-import Data.Char (isDigit)
 import Data.List.Split (splitOn)
 import Data.Maybe (catMaybes)
-import Text.Read (readMaybe)
 import Text.Trifecta (Parser)
 
 type Input = String
@@ -54,13 +53,6 @@ getMul xs = if length ys < 2
     ws = splitOn ")" zs
     y = readInt $ (take 1 ws)
 
-
-readInt :: [String] -> Maybe Int
-readInt (x:_) = if length x <= 3 && all isDigit x
-             then readMaybe x
-             else Nothing
-readInt _ = Nothing
-
 -- 80570939
 solve2 :: Input -> Int
 solve2 xs = sum ds
@@ -71,7 +63,3 @@ solve2 xs = sum ds
 
 trimAfterDont :: String -> String
 trimAfterDont xs = headOr "" $ splitOn "don't()" xs
-
-headOr :: a -> [a] -> a
-headOr x [] = x
-headOr _ (x:_) = x

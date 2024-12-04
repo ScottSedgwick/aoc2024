@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Day03 (filename, parser, solve1, solve2)
+import Day04 (filename, parser, solve1, solve2)
 import Text.Trifecta (parseFromFile)
 
 main :: IO ()

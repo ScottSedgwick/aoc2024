@@ -42,7 +42,9 @@ library
   exposed-modules:     Day01
                      , Day02
                      , Day03
+                     , Day04
   other-modules:       Parser
+                     , Utils
 
 executable aoc2024
   import:              common-options
