@@ -6,13 +6,16 @@ Maintainer: Scott Sedgwick <scott.sedgwick@gmail.com>
 See README for more info
 -}
 
-module Parser (number, clearSpaces, parse2dArray, wholeString) where
+module Parser (number, clearSpaces, parse2dArray, parseGrid2, wholeString) where
 
 import Data.List.Split (splitOn)
+import qualified Data.IntMap as IM
 import qualified Data.Map as M
 import Text.Parser.Char (anyChar, char, digit)
 import Text.Parser.Combinators (many, skipMany)
 import Text.Trifecta (Parser)
+
+import Cartesian2 (Grid2, tokey)
 
 number :: Parser Integer
 number = read <$> many digit
@@ -38,3 +41,17 @@ indexYs y m (c:cs) = indexYs (y + 1) (indexXs y 0 m c) cs
 indexXs :: Int -> Int -> M.Map (Int, Int) Char -> String -> M.Map (Int, Int) Char
 indexXs _ _ m [] = m
 indexXs y x m (c:cs) = indexXs y (x + 1) (M.insert (x,y) c m) cs
+
+parseGrid2 :: Parser Grid2
+parseGrid2 = do
+    xs <- wholeString
+    let ys = splitOn "\n" xs
+    pure $ indexYs' 0 IM.empty ys
+
+indexYs' :: Int -> Grid2 -> [String] -> Grid2
+indexYs' _ m [] = m
+indexYs' y m (c:cs) = indexYs' (y + 1) (indexXs' y 0 m c) cs
+
+indexXs' :: Int -> Int -> Grid2 -> String -> Grid2
+indexXs' _ _ m [] = m
+indexXs' y x m (c:cs) = indexXs' y (x + 1) (IM.insert (tokey (x, y)) c m) cs

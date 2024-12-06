@@ -10,7 +10,7 @@ maintainer:          Scott Sedgwick <scott.sedgwick@gmail.com>
 copyright:           2024 Scott Sedgwick
 build-type:          Simple
 extra-doc-files:     README.md
-tested-with:         GHC == 8.8.3
+tested-with:         GHC == 9.10.1
 
 common common-options
   build-depends:       base
@@ -18,6 +18,7 @@ common common-options
                      , parsers
                      , split
                      , text
+                     , time
                      , trifecta
   default-extensions:  DerivingStrategies
   ghc-options:         -Wall
@@ -25,15 +26,11 @@ common common-options
                        -Widentities
                        -Wincomplete-uni-patterns
                        -Wincomplete-record-updates
-  if impl(ghc >= 8.0)
-    ghc-options:       -Wredundant-constraints
-  if impl(ghc >= 8.2)
-    ghc-options:       -fhide-source-paths
-  if impl(ghc >= 8.4)
-    ghc-options:       -Wmissing-export-lists
+                       -Wredundant-constraints
+                       -fhide-source-paths
+                       -Wmissing-export-lists
                        -Wpartial-fields
-  if impl(ghc >= 8.8)
-    ghc-options:       -Wmissing-deriving-strategies
+                       -Wmissing-deriving-strategies
 
   default-language:    Haskell2010
 
@@ -47,6 +44,7 @@ library
                      , Day05
                      , Day06
   other-modules:       Parser
+                     , Cartesian2
                      , Utils
 
 executable aoc2024

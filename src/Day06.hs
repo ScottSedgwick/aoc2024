@@ -14,43 +14,42 @@ module Day06
        , solve2
        ) where
 
-import Utils (headOr)
-
-import Debug.Trace
 import Data.List (nub)
-import qualified Data.Map as M
 import Data.Maybe (isNothing)
 import qualified Data.Set as S
 import Text.Trifecta (Parser)
 
-import Parser (parse2dArray)
+import Parser (parseGrid2)
+import Cartesian2
 
-type Input = M.Map (Int, Int) Char
+type Input = Grid2
 data Dirn = DUp | DDown | DLeft | DRight deriving stock (Show, Eq, Ord)
 
 filename :: String
 filename = "data/day06.txt"
 
 parser :: Parser Input
-parser = parse2dArray
+parser = parseGrid2
 
 solve1 :: Input -> Int
-solve1 xs = trace (show posns) $ length posns
+solve1 xs = length posns
   where
     posns = case buildPaths xs of
               Nothing -> []
               Just (ps) -> nub (map fst (S.toList ps))
 
-buildPaths :: Input -> Maybe (S.Set ((Int, Int), Dirn))
+buildPaths :: Input -> Maybe (S.Set (Point2, Dirn))
 buildPaths xs = buildPath xs pos DUp (S.singleton (pos, DUp))
   where
-    pos = fst $ headOr ((1000,1000), ' ') $ filter (\(_,a) -> a == '^') (M.toList xs)
+    pos = case find xs (\a -> a == '^') of
+            Nothing -> (1000,1000)
+            Just p  -> p
 
-buildPath :: Input -> (Int, Int) -> Dirn -> S.Set ((Int, Int), Dirn) -> Maybe (S.Set ((Int, Int), Dirn))
+buildPath :: Input -> Point2 -> Dirn -> S.Set (Point2, Dirn) -> Maybe (S.Set (Point2, Dirn))
 buildPath xs p d path = 
-    if not (M.member p' xs)                                     -- We have left the space.
+    if not (member xs p')                                       -- We have left the space.
     then Just path
-    else if (M.!) xs p' == '#'                                  -- We would hit something - turn right.
+    else if xs ! p' == '#'                                      -- We would hit something - turn right.
          then buildPath xs p (turnRight d) path
          else if (S.member (p',d) path)                         -- We are in a position, facing a direction, that we have been in before.  This is a loop - terminate.
               then Nothing
@@ -58,7 +57,7 @@ buildPath xs p d path =
   where
     p' = nextPos p d
 
-nextPos :: (Int, Int) -> Dirn -> (Int, Int)
+nextPos :: Point2 -> Dirn -> Point2
 nextPos (x,y) DUp    = (x, y - 1)
 nextPos (x,y) DRight = (x + 1, y)
 nextPos (x,y) DDown  = (x, y + 1)
@@ -79,4 +78,4 @@ solve2 xs = length (filter isNothing zs)
 
 -- Generate a list of maps with one position changed from '.' to '#'
 newMaps :: Input -> [Input]
-newMaps xs = M.foldrWithKey (\k a b -> if a == '.' then (M.adjust (\_ -> '#') k xs):b else b) [] xs
+newMaps xs = foldrWithKey (\k a b -> if a == '.' then (adjust (\_ -> '#') k xs):b else b) [] xs
