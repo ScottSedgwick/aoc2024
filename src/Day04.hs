@@ -14,19 +14,19 @@ module Day04
        , solve2
        ) where
 
-import Parser (parse2dArray)
+import Cartesian2 (Grid2)
+import Parser (parseGrid2)
 import Utils (mapOnKeys, valAtEq)
 
-import qualified Data.Map as M
 import Text.Trifecta (Parser)
 
-type Input = M.Map (Int, Int) Char
+type Input = Grid2
 
 filename :: String
 filename = "data/day04.txt"
 
 parser :: Parser Input
-parser = parse2dArray
+parser = parseGrid2
 
 solve1 :: Input -> Int
 solve1 m = sum $ mapOnKeys (findXmas m) m

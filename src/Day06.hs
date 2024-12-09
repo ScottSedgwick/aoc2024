@@ -16,6 +16,7 @@ module Day06
 
 import Data.List (nub)
 import Data.Maybe (isNothing)
+import qualified Data.Map as M
 import qualified Data.Set as S
 import Text.Trifecta (Parser)
 
@@ -47,9 +48,9 @@ buildPaths xs = buildPath xs pos DUp (S.singleton (pos, DUp))
 
 buildPath :: Input -> Point2 -> Dirn -> S.Set (Point2, Dirn) -> Maybe (S.Set (Point2, Dirn))
 buildPath xs p d path = 
-    if not (member xs p')                                       -- We have left the space.
+    if not (M.member p' xs)                                     -- We have left the space.
     then Just path
-    else if xs ! p' == '#'                                      -- We would hit something - turn right.
+    else if xs M.! p' == '#'                                    -- We would hit something - turn right.
          then buildPath xs p (turnRight d) path
          else if (S.member (p',d) path)                         -- We are in a position, facing a direction, that we have been in before.  This is a loop - terminate.
               then Nothing
@@ -78,4 +79,4 @@ solve2 xs = length (filter isNothing zs)
 
 -- Generate a list of maps with one position changed from '.' to '#'
 newMaps :: Input -> [Input]
-newMaps xs = foldrWithKey (\k a b -> if a == '.' then (adjust (\_ -> '#') k xs):b else b) [] xs
+newMaps xs = M.foldrWithKey (\k a b -> if a == '.' then (M.adjust (\_ -> '#') k xs):b else b) [] xs
