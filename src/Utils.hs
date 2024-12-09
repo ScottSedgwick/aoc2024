@@ -1,8 +1,11 @@
-module Utils (headOr, readInt, mapOnKeys, valAtEq) where
+module Utils (gauss, headOr, readInt, mapOnKeys, valAtEq) where
 
 import Data.Char (isDigit)
 import qualified Data.Map as M
 import Text.Read (readMaybe)
+
+gauss :: Int -> Int -> Int
+gauss lo hi = (hi * (hi + 1) - lo * (lo - 1)) `div` 2
 
 -- Safe head. Returns a default value if the list is empty.
 headOr :: a -> [a] -> a
