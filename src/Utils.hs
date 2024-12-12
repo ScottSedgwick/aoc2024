@@ -1,4 +1,4 @@
-module Utils (gauss, headOr, readInt, mapOnKeys, valAtEq) where
+module Utils (gauss, headOr, readInt, mapOnKeys, runN, valAtEq) where
 
 import Data.Char (isDigit)
 import qualified Data.Map as M
@@ -27,3 +27,7 @@ valAtEq m k c =
     case M.lookup k m of
         (Just v) -> c == v
         Nothing -> False
+
+runN :: Int -> (a -> a) -> a -> a
+runN 0 _ a = a
+runN n f a = runN (n - 1) f (f a)

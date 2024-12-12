@@ -6,7 +6,7 @@ Maintainer: Scott Sedgwick <scott.sedgwick@gmail.com>
 See README for more info
 -}
 
-module Parser (number, clearSpaces, parseGrid2, wholeString) where
+module Parser (number, clearSpaces, parseGrid2, numbers, wholeString) where
 
 import Data.List.Split (splitOn)
 import qualified Data.Map as M
@@ -24,6 +24,9 @@ clearSpaces = skipMany (char ' ')
 
 wholeString :: Parser String
 wholeString = many anyChar
+
+numbers :: String -> Parser [Int]
+numbers sep = map read <$> splitOn sep <$> wholeString
 
 -- Parses a text file. Splits on newlines.
 -- Returns a 2d array, where the top left character is at (0, 0)

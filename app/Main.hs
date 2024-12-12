@@ -1,23 +1,25 @@
 module Main (main) where
 
-import Day10 (filename, parser, solve1, solve2)
+import Day12 (filename, parser, solve1, solve2)
 import Data.Time.Clock (diffUTCTime, getCurrentTime)
 import Text.Trifecta (parseFromFile)
 
 main :: IO ()
 main = do
     start <- getCurrentTime
-    print start
+    logMsg "Started at: " start
     xs <- parseFromFile parser filename
-    print xs
     case xs of
-        Nothing -> putStrLn "Error - halted."
+        Nothing -> putStrLn "Error parsing data - halted."
         Just x -> do
-            putStr "Part 1: "
-            print $ solve1 x
-            putStr "Part 2: "
-            print $ solve2 x
+            logMsg "Data: " x
+            logMsg "Part 1: " $ solve1 x
+            logMsg "Part 2: " $ solve2 x
     end <- getCurrentTime
     let diff = diffUTCTime end start
-    putStr "Time Taken: "
-    print diff
+    logMsg "Time Taken: " diff
+
+logMsg :: Show a => String -> a -> IO()
+logMsg msg x = do
+    putStr msg
+    print x
