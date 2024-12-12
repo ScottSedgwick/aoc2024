@@ -55,6 +55,8 @@ getRegions ps =
             in
                 bs : getRegions cs
 
+-- From any point (in a set of points of one crop type), build the set of points that constitute a region
+-- by stepping north, south, east and west and continuing if those points are in the set.
 buildRegion :: Point2 -> (S.Set Point2, S.Set Point2) -> (S.Set Point2, S.Set Point2)
 buildRegion x (xs, ys) = foldr (\a b -> buildRegion a b) (xs', ys') ns
   where
@@ -63,7 +65,7 @@ buildRegion x (xs, ys) = foldr (\a b -> buildRegion a b) (xs', ys') ns
     ys' = foldr (\a b -> S.delete a b) ys ns
 
 -- For each element in the set, calculate the number of neighbours it has which are not in the set.
--- Add them together to get yur perimeter
+-- Add them together to get your perimeter
 getPerimeter :: S.Set Point2 -> Int
 getPerimeter ps = sum ns
   where
@@ -78,6 +80,9 @@ getArea = S.size
 -- ===========================================================================
 -- Part 2
 
+-- Same as Part 1, except instead of finding the perimeter of a region, find the
+-- number of straight edges it has.
+
 solve2 :: Input -> Int
 solve2 xs = 
     sum (map (\(a,b) -> a * b) (zip es as))
@@ -91,10 +96,7 @@ solve2 xs =
 
 -- Edges == Corners!
 getEdges :: S.Set Point2 -> Int
-getEdges xs =
-    sum cs
-  where
-    cs = map (corners xs) (S.toList xs)
+getEdges xs = sum $ map (corners xs) (S.toList xs)
 
 corners :: S.Set Point2 -> Point2 -> Int
 corners ps p = length $ filter id [out_ne, out_nw, out_se, out_sw, in_ne, in_nw, in_se, in_sw]

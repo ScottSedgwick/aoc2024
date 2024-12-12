@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Day12 (filename, parser, solve1, solve2)
+import Day13 (filename, parser, solve1, solve2)
 import Data.Time.Clock (diffUTCTime, getCurrentTime)
 import Text.Trifecta (parseFromFile)
 
