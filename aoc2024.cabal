@@ -54,7 +54,7 @@ library
                      , Cartesian2
                      , Utils
 
-executable aoc2024
+executable aoc2024-exe
   import:              common-options
   hs-source-dirs:      app
   main-is:             Main.hs
@@ -62,3 +62,16 @@ executable aoc2024
   ghc-options:         -threaded
                        -rtsopts
                        -with-rtsopts=-N
+
+test-suite aoc2024-test
+  import:              common-options
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Main.hs
+  other-modules:       Test.Day12
+  build-depends:       aoc2024
+                     , hspec
+  ghc-options:         -threaded
+                       -rtsopts
+                       -with-rtsopts=-N
+  build-tool-depends: hspec-discover:hspec-discover == 2.*

@@ -1,4 +1,4 @@
-module Cartesian2 (Bounds2, Grid2, Point2, bounds, count, find, inbounds) where
+module Cartesian2 (Bounds2, Grid2, Point2, bounds, count, find, inbounds, neighbours, north, south, east, west) where
 
 import qualified Data.List as L
 import qualified Data.Map as M
@@ -24,3 +24,18 @@ find g f = case M.toList (M.filter f g) of
 
 inbounds :: Bounds2 -> Point2 -> Bool
 inbounds ((minx, miny), (maxx, maxy)) (x, y) = (x >= minx) && (x <= maxx) && (y >= miny) && (y <= maxy)
+
+neighbours :: Point2 -> [Point2]
+neighbours p = [east p, west p, north p, south p]
+
+east :: Point2 -> Point2
+east (x, y) = (x+1, y)
+
+west :: Point2 -> Point2
+west (x, y) = (x-1, y)
+
+north :: Point2 -> Point2
+north (x, y) = (x, y-1)
+
+south :: Point2 -> Point2
+south (x, y) = (x, y+1)
