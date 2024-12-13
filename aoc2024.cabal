@@ -16,6 +16,7 @@ common common-options
   build-depends:       base
                      , containers
                      , deepseq
+                     , hmatrix
                      , parsers
                      , split
                      , text
