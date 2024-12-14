@@ -19,9 +19,11 @@ common common-options
                      , hmatrix
                      , parsers
                      , split
+                     , statistics
                      , text
                      , time
                      , trifecta
+                     , vector
   default-extensions:  DerivingStrategies
   ghc-options:         -Wall
                        -Wcompat
@@ -52,6 +54,7 @@ library
                      , Day11
                      , Day12
                      , Day13
+                     , Day14
   other-modules:       Parser
                      , Cartesian2
                      , Utils

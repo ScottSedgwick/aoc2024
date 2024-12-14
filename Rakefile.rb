@@ -6,7 +6,7 @@ end
 task :default => [:build]
 
 desc "Run the application"
-task :run do
+task :run => [:build] do
     sh "cabal exec aoc2024-exe"
 end
 
