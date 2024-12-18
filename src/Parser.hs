@@ -6,7 +6,7 @@ Maintainer: Scott Sedgwick <scott.sedgwick@gmail.com>
 See README for more info
 -}
 
-module Parser (number, clearSpaces, parseGrid2, numbers, wholeString) where
+module Parser (number, clearSpaces, parseGrid2, parseGrid2Str, numbers, wholeString) where
 
 import Data.List.Split (splitOn)
 import qualified Data.Map as M
@@ -31,10 +31,12 @@ numbers sep = map read <$> splitOn sep <$> wholeString
 -- Parses a text file. Splits on newlines.
 -- Returns a 2d array, where the top left character is at (0, 0)
 parseGrid2 :: Parser Grid2
-parseGrid2 = do
-    xs <- wholeString
-    let ys = splitOn "\n" xs
-    pure $ indexYs 0 M.empty ys
+parseGrid2 = parseGrid2Str <$> wholeString
+
+parseGrid2Str :: String -> Grid2
+parseGrid2Str xs = indexYs 0 M.empty ys
+  where 
+    ys = splitOn "\n" xs 
 
 indexYs :: Int -> Grid2 -> [String] -> Grid2
 indexYs _ m [] = m

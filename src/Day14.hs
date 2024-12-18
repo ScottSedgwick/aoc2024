@@ -66,11 +66,7 @@ moveBot (fx, fy) c (Robot (rx, ry) (vx, vy)) = ((rx + (vx * c)) `mod` fx, (ry + 
 
 score :: Point2 -> [Point2] -> Int
 score (fx, fy) ps = 
-    trace "Points:" $
-    trace (show ps) $
-    trace "Quadrants:" $
-    trace (show qs) $
-    product $ map length [q1, q2, q3, q4]
+    product $ map length qs
   where
     midX = (fx - 1) `div` 2
     midY = (fy - 1) `div` 2

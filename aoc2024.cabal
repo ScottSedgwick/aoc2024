@@ -14,10 +14,12 @@ tested-with:         GHC == 9.10.1
 
 common common-options
   build-depends:       base
+                     , array
                      , containers
                      , deepseq
                      , hmatrix
                      , parsers
+                     , search-algorithms
                      , split
                      , statistics
                      , text
@@ -55,6 +57,10 @@ library
                      , Day12
                      , Day13
                      , Day14
+                     , Day15
+                     , Day16
+                     , Day17
+                     , Day18
   other-modules:       Parser
                      , Cartesian2
                      , Utils
